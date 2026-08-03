@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RK2 Tintas — Loja de Tintas em Cotia, SP</title>
+<meta name="description" content="RK2 Tintas: tintas, esmaltes, texturas e ferramentas para pintura em Cotia, SP. Atendimento rápido, entrega local e consultoria de cor.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1E2420;
+    --ink-soft:#3A423C;
+    --paper:#F2EEE3;
+    --paper-dim:#E8E2D2;
+    --terracotta:#BF4E2C;
+    --ochre:#DDA23C;
+    --teal:#2B6E7A;
+    --green:#52785A;
+    --plum:#6B3F4B;
+    --line: rgba(30,36,32,0.14);
+    --radius: 3px;
+    --shadow: 0 18px 40px -22px rgba(30,36,32,0.45);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.02em;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  section{padding:96px 0;}
+  @media (max-width:720px){
+    section{padding:64px 0;}
+    .wrap{padding:0 20px;}
+  }
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--terracotta);
+    outline-offset:3px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+    html{scroll-behavior:auto;}
+    [data-animate]{opacity:1 !important; transform:none !important;}
+  }
+
+  /* ---------- SCROLL-REVEAL ---------- */
+  [data-animate]{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 0.7s cubic-bezier(.2,.7,.2,1), transform 0.7s cubic-bezier(.2,.7,.2,1);
+    transition-delay:var(--d, 0s);
+  }
+  [data-animate].in-view{opacity:1; transform:translateY(0);}
+
+  /* ---------- KEYFRAMES ---------- */
+  @keyframes fadeSlideDown{
+    from{opacity:0; transform:translateY(-14px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  @keyframes pulseDot{
+    0%{box-shadow:0 0 0 0 rgba(191,78,44,0.55);}
+    70%{box-shadow:0 0 0 9px rgba(191,78,44,0);}
+    100%{box-shadow:0 0 0 0 rgba(191,78,44,0);}
+  }
+  @keyframes barsRise{
+    from{ transform:scaleY(0); }
+    to{ transform:scaleY(1); }
+  }
+  @keyframes chipDropIn{
+    from{ opacity:0; transform:var(--rot) translateY(-60px) var(--tx, translateX(0)); }
+    to{ opacity:1; transform:var(--rot) var(--tx, translateX(0)); }
+  }
+  @keyframes heroIn{
+    from{ opacity:0; transform:translateY(18px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .hero-in{
+    opacity:0;
+    animation:heroIn 0.7s cubic-bezier(.2,.8,.2,1) forwards;
+    animation-delay:var(--d, 0s);
+  }
+
+  /* ---------- HEADER ---------- */
+  .scroll-progress{
+    position:fixed; top:0; left:0; height:3px;
+    background:var(--terracotta);
+    width:0%;
+    z-index:100;
+    transition:width 0.1s linear;
+  }
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(242,238,227,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    animation:fadeSlideDown 0.6s ease;
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:1.35rem;
+  }
+  .logo .chip-mark{
+    width:26px; height:26px; border-radius:50%;
+    background:conic-gradient(var(--terracotta) 0 25%, var(--ochre) 25% 50%, var(--teal) 50% 75%, var(--green) 75% 100%);
+    box-shadow: inset 0 0 0 3px var(--paper);
+    border:1.5px solid var(--ink);
+  }
+  nav.links{display:flex; gap:32px; align-items:center;}
+  nav.links a{
+    font-size:0.94rem; font-weight:500;
+    position:relative;
+    padding:4px 0;
+  }
+  nav.links a::after{
+    content:"";
+    position:absolute; left:0; bottom:-2px;
+    width:0; height:2px; background:var(--terracotta);
+    transition:width 0.25s ease;
+  }
+  nav.links a:hover::after{width:100%;}
+  .cta-btn{
+    background:var(--ink);
+    color:var(--paper) !important;
+    padding:11px 22px;
+    border-radius:2px;
+    font-weight:600;
+    font-size:0.9rem;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:background 0.2s ease, transform 0.2s ease;
+    border:1px solid var(--ink);
+  }
+  .cta-btn:hover{background:var(--terracotta); border-color:var(--terracotta); transform:translateY(-1px);}
+  .menu-toggle{display:none; background:none; border:none; cursor:pointer; padding:8px;}
+  .menu-toggle span{display:block; width:24px; height:2px; background:var(--ink); margin:5px 0;}
+
+  @media (max-width:860px){
+    nav.links{
+      position:fixed; top:64px; left:0; right:0;
+      background:var(--paper);
+      flex-direction:column; align-items:flex-start;
+      padding:24px 20px; gap:20px;
+      border-bottom:1px solid var(--line);
+      transform:translateY(-140%);
+      transition:transform 0.3s ease;
+    }
+    nav.links.open{transform:translateY(0);}
+    .menu-toggle{display:block;}
+    .nav .cta-btn.desktop-only{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding-top:76px;
+    padding-bottom:40px;
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:56px;
+    align-items:center;
+  }
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr; padding-top:48px;}
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    color:var(--terracotta);
+    font-weight:500;
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:""; width:26px; height:1px; background:var(--terracotta);
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 4.6vw, 3.6rem);
+    line-height:1.06;
+    margin-bottom:22px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--terracotta);
+  }
+  .hero p.lead{
+    font-size:1.08rem;
+    color:var(--ink-soft);
+    max-width:46ch;
+    margin-bottom:32px;
+  }
+  .hero-actions{
+    display:flex; gap:14px; flex-wrap:wrap;
+    margin-bottom:38px;
+  }
+  .btn-outline{
+    padding:11px 22px;
+    border:1.5px solid var(--ink);
+    border-radius:2px;
+    font-weight:600;
+    font-size:0.9rem;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:all 0.2s ease;
+  }
+  .btn-outline:hover{background:var(--ink); color:var(--paper);}
+
+  .hero-meta{
+    display:flex; gap:28px; flex-wrap:wrap;
+    padding-top:26px;
+    border-top:1px solid var(--line);
+  }
+  .hero-meta div{font-size:0.85rem; color:var(--ink-soft);}
+  .hero-meta strong{
+    display:block; font-family:'Fraunces', serif; font-size:1.3rem; color:var(--ink); font-weight:600;
+  }
+
+  /* Fanned paint chips — signature element */
+  .chip-fan{
+    position:relative;
+    height:440px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .chip{
+    --tx:translateX(0);
+    --rot:rotate(0deg);
+    position:absolute;
+    width:150px; height:340px;
+    border-radius:4px;
+    box-shadow:var(--shadow);
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding:16px 14px;
+    color:var(--paper);
+    transform-origin:bottom center;
+    transition:transform 0.45s cubic-bezier(.2,.8,.2,1), box-shadow 0.3s ease;
+    cursor:default;
+    border:1px solid rgba(0,0,0,0.08);
+    opacity:0;
+    animation:chipDropIn 0.7s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .chip .code{font-size:0.68rem; opacity:0.85; margin-bottom:4px;}
+  .chip .name{font-family:'Fraunces', serif; font-weight:600; font-size:1.02rem; line-height:1.15;}
+  .chip:nth-child(1){background:var(--terracotta); --rot:rotate(-18deg); --tx:translateX(-86px); transform:rotate(-18deg) translateX(-86px); animation-delay:0.05s;}
+  .chip:nth-child(2){background:var(--ochre); color:var(--ink); --rot:rotate(-9deg); --tx:translateX(-44px); transform:rotate(-9deg) translateX(-44px); animation-delay:0.15s;}
+  .chip:nth-child(3){background:var(--green); --rot:rotate(0deg); transform:rotate(0deg); animation-delay:0.25s;}
+  .chip:nth-child(4){background:var(--teal); --rot:rotate(9deg); --tx:translateX(44px); transform:rotate(9deg) translateX(44px); animation-delay:0.35s;}
+  .chip:nth-child(5){background:var(--plum); --rot:rotate(18deg); --tx:translateX(86px); transform:rotate(18deg) translateX(86px); animation-delay:0.45s;}
+  @keyframes chipFloat{
+    0%, 100%{ transform:var(--rot) var(--tx) translateY(0); }
+    50%{ transform:var(--rot) var(--tx) translateY(-8px); }
+  }
+  .chip-fan:not(:hover) .chip:nth-child(1){animation:chipDropIn 0.7s cubic-bezier(.2,.8,.2,1) forwards 0.05s, chipFloat 5s ease-in-out infinite 0.75s;}
+  .chip-fan:not(:hover) .chip:nth-child(2){animation:chipDropIn 0.7s cubic-bezier(.2,.8,.2,1) forwards 0.15s, chipFloat 5s ease-in-out infinite 0.9s;}
+  .chip-fan:not(:hover) .chip:nth-child(3){animation:chipDropIn 0.7s cubic-bezier(.2,.8,.2,1) forwards 0.25s, chipFloat 5s ease-in-out infinite 1.05s;}
+  .chip-fan:not(:hover) .chip:nth-child(4){animation:chipDropIn 0.7s cubic-bezier(.2,.8,.2,1) forwards 0.35s, chipFloat 5s ease-in-out infinite 1.2s;}
+  .chip-fan:not(:hover) .chip:nth-child(5){animation:chipDropIn 0.7s cubic-bezier(.2,.8,.2,1) forwards 0.45s, chipFloat 5s ease-in-out infinite 1.35s;}
+  .chip-fan:hover .chip{animation:none;}
+  .chip-fan:hover .chip:nth-child(1){transform:rotate(-26deg) translateX(-130px) translateY(-14px);}
+  .chip-fan:hover .chip:nth-child(2){transform:rotate(-13deg) translateX(-66px) translateY(-6px);}
+  .chip-fan:hover .chip:nth-child(3){transform:rotate(0deg) translateY(-18px);}
+  .chip-fan:hover .chip:nth-child(4){transform:rotate(13deg) translateX(66px) translateY(-6px);}
+  .chip-fan:hover .chip:nth-child(5){transform:rotate(26deg) translateX(130px) translateY(-14px);}
+  .chip:hover{z-index:10; box-shadow:0 24px 48px -18px rgba(30,36,32,0.55);}
+
+  @media (max-width:900px){
+    .chip-fan{height:320px; margin-top:12px;}
+    .chip{width:110px; height:250px; padding:12px 10px;}
+    .chip .name{font-size:0.85rem;}
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:24px; margin-bottom:48px;
+    flex-wrap:wrap;
+  }
+  .section-head h2{font-size:clamp(1.8rem, 3vw, 2.4rem);}
+  .section-head p{color:var(--ink-soft); max-width:42ch; margin-top:10px;}
+  .section-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; color:var(--terracotta); font-weight:500;
+    letter-spacing:0.12em; text-transform:uppercase;
+    display:block; margin-bottom:10px;
+  }
+
+  /* ---------- PRODUTOS ---------- */
+  .products{background:var(--paper-dim);}
+  .product-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:2px;
+    background:var(--ink);
+    border:1px solid var(--ink);
+  }
+  @media (max-width:860px){ .product-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .product-grid{grid-template-columns:1fr;} }
+  .product-card{
+    background:var(--paper);
+    padding:34px 26px;
+    transition:background 0.25s ease, transform 0.3s ease;
+  }
+  .product-card:hover{background:#fff; transform:translateY(-5px);}
+  .swatch{
+    width:38px; height:38px; border-radius:50%;
+    margin-bottom:18px;
+    border:1px solid rgba(0,0,0,0.1);
+    transition:transform 0.35s cubic-bezier(.2,.8,.2,1);
+  }
+  .product-card:hover .swatch{transform:scale(1.18) rotate(-8deg);}
+  .product-card h3{font-size:1.15rem; margin-bottom:8px;}
+  .product-card p{color:var(--ink-soft); font-size:0.92rem;}
+
+  /* ---------- DIFERENCIAIS ---------- */
+  .diff-list{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:0;
+    border-top:1px solid var(--line);
+  }
+  @media (max-width:860px){ .diff-list{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .diff-list{grid-template-columns:1fr;} }
+  .diff-item{
+    padding:30px 24px;
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+    transition:padding-left 0.3s ease;
+  }
+  .diff-item::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0;
+    width:3px; background:var(--terracotta);
+    transform:scaleY(0); transform-origin:top;
+    transition:transform 0.35s cubic-bezier(.2,.8,.2,1);
+  }
+  .diff-item:hover{padding-left:32px;}
+  .diff-item:hover::before{transform:scaleY(1);}
+  .diff-item:last-child{border-right:none;}
+  .diff-item .num{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--terracotta); font-size:0.85rem; margin-bottom:12px; display:block;
+    transition:transform 0.3s ease;
+  }
+  .diff-item:hover .num{transform:translateX(2px);}
+  .diff-item h3{font-size:1.05rem; margin-bottom:8px;}
+  .diff-item p{color:var(--ink-soft); font-size:0.88rem;}
+
+  /* ---------- SOBRE ---------- */
+  .about{
+    display:grid; grid-template-columns:0.9fr 1.1fr; gap:64px; align-items:center;
+  }
+  @media (max-width:900px){ .about{grid-template-columns:1fr; gap:36px;} }
+  .about-visual{
+    background:var(--ink);
+    border-radius:4px;
+    padding:40px;
+    aspect-ratio:4/5;
+    display:flex; flex-direction:column; justify-content:space-between;
+    color:var(--paper);
+    box-shadow:var(--shadow);
+  }
+  .about-visual .can{
+    width:100%;
+    display:flex; flex-direction:column; align-items:flex-start; gap:10px;
+  }
+  .about-visual .bars{display:flex; gap:6px; width:100%;}
+  .about-visual .bars span{
+    height:64px; flex:1; border-radius:2px;
+    transform-origin:bottom;
+    transform:scaleY(0);
+    transition:transform 0.2s ease;
+  }
+  .about-visual.in-view .bars span{animation:barsRise 0.6s cubic-bezier(.2,.8,.2,1) forwards;}
+  .about-visual .bars span:nth-child(1){background:var(--terracotta); animation-delay:0.05s;}
+  .about-visual .bars span:nth-child(2){background:var(--ochre); animation-delay:0.15s;}
+  .about-visual .bars span:nth-child(3){background:var(--teal); animation-delay:0.25s;}
+  .about-visual .bars span:nth-child(4){background:var(--green); animation-delay:0.35s;}
+  .about-visual .bars span:nth-child(5){background:var(--plum); animation-delay:0.45s;}
+  .about-visual .bars span:hover{transform:scaleY(1.12) !important;}
+  .about-visual .caption{font-family:'IBM Plex Mono', monospace; font-size:0.78rem; opacity:0.75;}
+  .about h2{margin-bottom:20px;}
+  .about p{color:var(--ink-soft); margin-bottom:16px; max-width:52ch;}
+
+  /* ---------- HORARIOS + CONTATO ---------- */
+  .contact{background:var(--ink); color:var(--paper);}
+  .contact .section-head p, .contact .eyebrow{color:rgba(242,238,227,0.7);}
+  .contact-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:64px;
+  }
+  @media (max-width:900px){ .contact-grid{grid-template-columns:1fr; gap:40px;} }
+  .hours-table{width:100%; border-collapse:collapse;}
+  .hours-table tr{border-bottom:1px solid rgba(242,238,227,0.14);}
+  .hours-table td{padding:13px 0; font-size:0.95rem;}
+  .hours-table td:last-child{text-align:right; font-family:'IBM Plex Mono', monospace; font-size:0.88rem;}
+  .hours-table tr.today td{color:var(--ochre); font-weight:600;}
+  .status-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.82rem;
+    margin-bottom:28px; color:rgba(242,238,227,0.85);
+  }
+  .status-dot{width:8px; height:8px; border-radius:50%; background:var(--terracotta); animation:pulseDot 2.2s ease-out infinite;}
+
+  .info-block{margin-bottom:26px;}
+  .info-block .label{
+    font-family:'IBM Plex Mono', monospace; font-size:0.74rem;
+    text-transform:uppercase; letter-spacing:0.1em; color:var(--ochre);
+    display:block; margin-bottom:8px;
+  }
+  .info-block .value{font-size:1.05rem;}
+  .contact-actions{display:flex; gap:14px; flex-wrap:wrap; margin-top:8px;}
+  .contact-actions .cta-btn{background:var(--terracotta); border-color:var(--terracotta);}
+  .contact-actions .cta-btn:hover{background:var(--ochre); border-color:var(--ochre); color:var(--ink) !important;}
+  .contact-actions .btn-outline{border-color:rgba(242,238,227,0.4); color:var(--paper);}
+  .contact-actions .btn-outline:hover{background:var(--paper); color:var(--ink);}
+
+  .map-frame{
+    width:100%; aspect-ratio:16/11;
+    border:1px solid rgba(242,238,227,0.2);
+    border-radius:3px; overflow:hidden;
+  }
+  .map-frame iframe{width:100%; height:100%; border:0; filter:grayscale(0.15) contrast(1.05);}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:36px 0; border-top:1px solid var(--line);}
+  .footer-row{
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px;
+  }
+  .footer-row .logo{font-size:1.1rem;}
+  footer .fine{font-size:0.82rem; color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo"><span class="chip-mark" aria-hidden="true"></span> RK2 Tintas</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="navLinks">
+      <a href="#produtos">Produtos</a>
+      <a href="#diferenciais">Diferenciais</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
+      <a href="https://wa.me/5511919478637" class="cta-btn" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero wrap">
+    <div>
+      <span class="eyebrow hero-in" style="--d:0s">Loja de tintas · Cotia, SP</span>
+      <h1 class="hero-in" style="--d:0.1s">Tinta certa para <em>cada parede</em>, cada projeto, cada cliente.</h1>
+      <p class="lead hero-in" style="--d:0.22s">A RK2 Tintas atende Cotia e região com linha completa de tintas, esmaltes, texturas e ferramentas — além de consultoria de cor pra quem não sabe por onde começar.</p>
+      <div class="hero-actions hero-in" style="--d:0.34s">
+        <a href="https://wa.me/5511919478637" class="cta-btn" target="_blank" rel="noopener">Falar no WhatsApp ↗</a>
+        <a href="#contato" class="btn-outline">Ver localização</a>
+      </div>
+      <div class="hero-meta hero-in" style="--d:0.44s">
+        <div><strong>08h</strong>Abertura diária</div>
+        <div><strong>Cotia</strong>Recanto Vista Alegre</div>
+        <div><strong>4+</strong>Linhas de produto</div>
+      </div>
+    </div>
+    <div class="chip-fan" aria-hidden="true">
+      <div class="chip"><span class="code mono">TC-014</span><span class="name">Terracota Cotia</span></div>
+      <div class="chip"><span class="code mono">OC-207</span><span class="name">Ocre Vista Alegre</span></div>
+      <div class="chip"><span class="code mono">VD-102</span><span class="name">Verde Recanto</span></div>
+      <div class="chip"><span class="code mono">AZ-330</span><span class="name">Azul Serra</span></div>
+      <div class="chip"><span class="code mono">RX-441</span><span class="name">Ameixa RK2</span></div>
+    </div>
+  </section>
+
+  <!-- PRODUTOS -->
+  <section class="products" id="produtos">
+    <div class="wrap">
+      <div class="section-head" data-animate>
+        <div>
+          <span class="section-num">Catálogo</span>
+          <h2>O que você encontra na loja</h2>
+        </div>
+        <p>Linha completa para pintura residencial, comercial e reformas rápidas — com orientação de aplicação inclusa.</p>
+      </div>
+      <div class="product-grid">
+        <div class="product-card" data-animate style="--d:0s">
+          <div class="swatch" style="background:var(--terracotta)"></div>
+          <h3>Tintas para parede</h3>
+          <p>Acrílicas, látex e acabamento premium em fosco, acetinado e semibrilho, em qualquer cor da cartela.</p>
+        </div>
+        <div class="product-card" data-animate style="--d:0.08s">
+          <div class="swatch" style="background:var(--ochre)"></div>
+          <h3>Esmaltes e vernizes</h3>
+          <p>Para madeira e metal, com opções de secagem rápida e alta resistência para portas, portões e móveis.</p>
+        </div>
+        <div class="product-card" data-animate style="--d:0.16s">
+          <div class="swatch" style="background:var(--teal)"></div>
+          <h3>Texturas e efeitos</h3>
+          <p>Grafiato, textura lisa e acabamentos decorativos para dar personalidade a fachadas e paredes internas.</p>
+        </div>
+        <div class="product-card" data-animate style="--d:0s">
+          <div class="swatch" style="background:var(--green)"></div>
+          <h3>Impermeabilizantes</h3>
+          <p>Proteção para lajes, caixas d'água e áreas externas expostas ao sol e à chuva.</p>
+        </div>
+        <div class="product-card" data-animate style="--d:0.08s">
+          <div class="swatch" style="background:var(--plum)"></div>
+          <h3>Ferramentas e acessórios</h3>
+          <p>Rolos, pincéis, fitas, lixas e bandejas — tudo que falta pra terminar o serviço sem correria extra.</p>
+        </div>
+        <div class="product-card" data-animate style="--d:0.16s">
+          <div class="swatch" style="background:var(--ink)"></div>
+          <h3>Consultoria de cor</h3>
+          <p>Ajuda presencial para escolher combinações de cor e calcular a quantidade certa de tinta pro seu ambiente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFERENCIAIS -->
+  <section id="diferenciais">
+    <div class="wrap">
+      <div class="section-head" data-animate>
+        <div>
+          <span class="section-num">Por que a RK2</span>
+          <h2>Atendimento de quem entende de tinta</h2>
+        </div>
+      </div>
+      <div class="diff-list">
+        <div class="diff-item" data-animate style="--d:0s">
+          <span class="num mono">01</span>
+          <h3>Atendimento local</h3>
+          <p>Loja física em Cotia, com atendimento rápido por WhatsApp para dúvidas e orçamentos.</p>
+        </div>
+        <div class="diff-item" data-animate style="--d:0.1s">
+          <span class="num mono">02</span>
+          <h3>Orientação técnica</h3>
+          <p>Ajuda para calcular quantidade, escolher acabamento e evitar desperdício de material.</p>
+        </div>
+        <div class="diff-item" data-animate style="--d:0.2s">
+          <span class="num mono">03</span>
+          <h3>Linha completa</h3>
+          <p>De parede a metal, de textura a ferramenta — tudo resolvido em um só lugar.</p>
+        </div>
+        <div class="diff-item" data-animate style="--d:0.3s">
+          <span class="num mono">04</span>
+          <h3>Fácil de chegar</h3>
+          <p>Localização acessível no Recanto Vista Alegre, com rota direta pelo mapa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="wrap about">
+      <div class="about-visual" data-animate>
+        <div class="can">
+          <span class="eyebrow" style="color:var(--ochre); margin-bottom:0;">Cartela RK2</span>
+          <div class="bars">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <span class="caption">Cores selecionadas para o clima e a luz de Cotia</span>
+      </div>
+      <div data-animate style="--d:0.15s">
+        <span class="section-num">Sobre a loja</span>
+        <h2>Uma loja de bairro com estoque de loja grande</h2>
+        <p>A RK2 Tintas nasceu para resolver o problema clássico de quem vai pintar: encontrar a cor certa, o produto certo e alguém que explique como usar. Ficamos no Recanto Vista Alegre, em Cotia, atendendo desde o pequeno retoque até a reforma completa.</p>
+        <p>Se você não sabe qual tinta comprar, é só chegar ou chamar no WhatsApp — a gente ajuda a decidir sem enrolação.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="contact" id="contato">
+    <div class="wrap">
+      <div class="section-head" data-animate>
+        <div>
+          <span class="section-num">Visite ou chame</span>
+          <h2>Onde estamos e quando abrimos</h2>
+        </div>
+      </div>
+      <div class="contact-grid">
+        <div data-animate>
+          <div class="status-pill"><span class="status-dot"></span> Fechado agora · abre às 08:00</div>
+
+          <div class="info-block">
+            <span class="label">Endereço</span>
+            <span class="value">R. Nelson Raineri, 2707 — Recanto Vista Alegre, Cotia - SP, 06702-155</span>
+          </div>
+          <div class="info-block">
+            <span class="label">Telefone / WhatsApp</span>
+            <span class="value">(11) 91947-8637</span>
+          </div>
+
+          <table class="hours-table" aria-label="Horário de funcionamento">
+            <tr class="today"><td>Segunda</td><td>08:00 – 18:00</td></tr>
+            <tr><td>Terça</td><td>08:00 – 18:00</td></tr>
+            <tr><td>Quarta</td><td>08:00 – 18:00</td></tr>
+            <tr><td>Quinta</td><td>08:00 – 18:00</td></tr>
+            <tr><td>Sexta</td><td>08:00 – 18:00</td></tr>
+            <tr><td>Sábado</td><td>08:00 – 13:00</td></tr>
+            <tr><td>Domingo</td><td>Fechado</td></tr>
+          </table>
+          <p class="fine" style="margin-top:14px; opacity:0.65;">* Horário estimado a partir da abertura informada — confirme os horários completos por WhatsApp.</p>
+
+          <div class="contact-actions">
+            <a href="https://wa.me/5511919478637" class="cta-btn" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="tel:+5511919478637" class="btn-outline">Ligar</a>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=R.+Nelson+Raineri,+2707,+Cotia,+SP" class="btn-outline" target="_blank" rel="noopener">Traçar rota</a>
+          </div>
+        </div>
+
+        <div class="map-frame" data-animate style="--d:0.15s">
+          <iframe
+            src="https://www.google.com/maps?q=R.+Nelson+Raineri,+2707,+Recanto+Vista+Alegre,+Cotia+-+SP,+06702-155&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Mapa da RK2 Tintas em Cotia, SP">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <a href="#top" class="logo"><span class="chip-mark" aria-hidden="true"></span> RK2 Tintas</a>
+    <span class="fine">Recanto Vista Alegre, Cotia - SP · (11) 91947-8637</span>
+    <span class="fine">© <span id="year"></span> RK2 Tintas</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const toggle = document.getElementById('menuToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => {
+    const isOpen = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      links.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Barra de progresso de rolagem
+  const progressBar = document.getElementById('scrollProgress');
+  const updateProgress = () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  };
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // Revelação de elementos ao rolar a página
+  const revealItems = document.querySelectorAll('[data-animate]');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    revealItems.forEach(item => observer.observe(item));
+  } else {
+    revealItems.forEach(item => item.classList.add('in-view'));
+  }
+</script>
+
+</body>
+</html>
