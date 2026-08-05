@@ -1,22 +1,13 @@
 /*
   RK2 TINTAS — dados dos produtos
-  ---------------------------------
-  Este arquivo é a "fonte da verdade" dos produtos mostrados no site.
-  Edite pelo painel /admin.html (mais fácil) ou diretamente aqui.
-
-  Cada produto tem:
-    id          - identificador único (texto simples, sem espaço)
-    name        - nome mostrado no card
-    description - texto curto mostrado no card
-    price       - preço em texto (ex: "R$ 89,90" ou "" para "Consulte")
-    color       - cor do círculo do card, em hexadecimal (ex: "#BF4E2C")
+  Gerado pelo painel admin em 05/08/2026, 02:06:33
 */
 window.RK2_PRODUCTS = [
   {
     id: "tintas-parede",
     name: "Tintas para parede",
     description: "Acrílicas, látex e acabamento premium em fosco, acetinado e semibrilho, em qualquer cor da cartela.",
-    price: "",
+    price: "89,90",
     color: "#BF4E2C"
   },
   {
