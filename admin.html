@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin · Produtos — RK2 Tintas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="logo"><span class="chip-mark" aria-hidden="true"></span> RK2 Tintas</a>
+    <span class="mono" style="font-size:0.8rem; color:var(--ink-soft);">Painel de produtos</span>
+  </div>
+</header>
+
+<main class="admin-shell">
+  <div class="admin-header">
+    <div>
+      <span class="section-num">Área restrita</span>
+      <h1 style="font-size:2rem;">Editar produtos e preços</h1>
+    </div>
+  </div>
+
+  <div class="admin-note">
+    <strong>Como funciona:</strong> esta página não salva na internet sozinha — ela edita os dados
+    só aqui no seu navegador. Depois de mexer, clique em <strong>“Baixar arquivo atualizado”</strong>
+    e substitua o arquivo <code class="mono">products-data.js</code> no seu site (pelo mesmo lugar
+    onde você enviou os outros arquivos). Assim que o arquivo novo estiver no ar, o site
+    principal já mostra as mudanças.
+  </div>
+
+  <div class="admin-toolbar">
+    <button class="btn-outline" id="downloadBtn" type="button">⬇ Baixar arquivo atualizado</button>
+    <label class="btn-outline" for="importInput">⬆ Importar products-data.js
+      <input type="file" id="importInput" accept=".js" style="display:none;">
+    </label>
+    <button class="btn-outline" id="resetBtn" type="button">↺ Restaurar do arquivo carregado</button>
+  </div>
+
+  <div id="productList"></div>
+
+  <button class="add-product-btn" id="addBtn" type="button">+ Adicionar produto</button>
+
+  <div class="export-box">
+    <h3>Pronto pra publicar?</h3>
+    <p>Baixe o arquivo atualizado e envie para o mesmo lugar onde está o restante do site, substituindo o <span class="mono">products-data.js</span> antigo.</p>
+    <button class="cta-btn" id="downloadBtn2" type="button">Baixar products-data.js</button>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="products-data.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
